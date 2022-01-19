@@ -56,41 +56,46 @@ int compare_tree_nodes(tree_node_t *node1,tree_node_t *node2,int main_idx)
 //
 // tree insertion routine (place your code here)
 //
-// tree_node_t new_tree_node_t(char name, char zip_code, char telephone_number){
-//   tree_node_t* newNode = (tree_node_t*)malloc(sizeof(tree_node_t));
-//   newNode->name = name;
-//   newNode->zip_code = zip_code;
-//   newNode
-//   newNode->left = newNode->right = NULL;
-//      return newNode;
-  
-//   // tree_node_t alberto = {.name={name}, .zip_code={zip_code}, .telephone_number={telephone_number}};
-//   // return alberto;
-// };
+//tree_node_t* new_tree_node(char name, char zip_code, char telephone_number){
+tree_node_t* new_tree_node(tree_node_t *person){
+    tree_node_t* newNode = (tree_node_t*)malloc(sizeof(tree_node_t));
+    strcpy(newNode->name, person->name);
+    strcpy(newNode->zip_code, person->zip_code);
+    strcpy(newNode->telephone_number, person->telephone_number);
+    *newNode->left = *newNode->right = NULL;
 
-void tree_insert( tree_node_t *link, tree_node_t *person , int main_index){
+    //printf("Oi, %s\n", newNode->name);
+    //printf("Zip-Code %s\n", newNode->zip_code);    
+    //printf("Number: %s\n", newNode->telephone_number);
+    return newNode;
+};
+
+void tree_insert(tree_node_t *link, tree_node_t *person , int main_index){
   if (main_index == 0){
-    //printf("%s\n",person->name);
-    if(link == NULL)
-      link = person;
-    else if(person->name <= link->name)
+    if(link == NULL){
+      //printf("%s\n", link->name);
+      //printf("%s\n", link->zip_code);
+      //printf("%s\n", link->telephone_number);
+    }
+    else if(person->name <= link->name){
       tree_insert(link->left[main_index], person, main_index);
+    }
     else
       tree_insert(link->right[main_index], person, main_index);
   }
   else if (main_index == 1){
     //printf("%s\n",person->zip_code);
     if(link == NULL)
-      link = person;
+      link = new_tree_node(person);
     else if(person->zip_code <= link->zip_code)
       tree_insert(link->left[main_index], person, main_index);
     else
       tree_insert(link->right[main_index], person, main_index);
   }
+  
   else {    
-    //printf("%s\n",person->telephone_number);
     if(link == NULL)
-      link = person;
+      link = new_tree_node(person);
     else if(person->telephone_number <= link->telephone_number)
       tree_insert(link->left[main_index], person, main_index);
     else
@@ -184,7 +189,7 @@ int main(int argc,char **argv)
       tree_insert(roots[main_index],&(persons[i]), main_index);// place your code here to insert &(persons[i]) in the tree with number main_index
     }
   }
-  printf("%s",roots[0]);
+  printf("%s",roots[0]->left);
   dt = cpu_time() - dt;
   printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
   // search the tree
