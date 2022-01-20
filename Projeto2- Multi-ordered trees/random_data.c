@@ -1924,12 +1924,22 @@ void random_zip_code(char zip_code[MAX_ZIP_CODE_SIZE + 1])
 
 void random_telephone_number(char telephone_number[MAX_TELEPHONE_NUMBER_SIZE + 1])
 {
-  int n1 = 1000 + aed_random() % 9000; // 1000..9999
-  int n2 = aed_random() % 1000;        //  000..999
-  int n3 = aed_random() % 1000;        //  000..999
+  int n1 = 1000 + aed_random() % 9000;   //  1000..9999 Qual a diferença de isso para aqui em cima?
+  int n2 = aed_random() % 1000;          //  000..999
+  int n3 = aed_random() % 1000;          //  000..999
   if(snprintf(telephone_number,MAX_TELEPHONE_NUMBER_SIZE + 1,"%04d %03d %03d",n1,n2,n3) >= MAX_TELEPHONE_NUMBER_SIZE + 1)
   {
     fprintf(stderr,"telephone number too large (%04d) (%03d (%03d)\n",n1,n2,n3);
+    exit(1);
+  }
+}
+void random_social_security_number(char social_security_number[MAX_SOCIAL_SECURITY_NUMBER + 1])
+{
+  int n1 = aed_random() % 1000;          //  000..999
+  int n2 = aed_random() % 100;           //  00..99
+  int n3 = aed_random() % 10000;         //  0000..9999
+  if(snprintf(social_security_number,MAX_SOCIAL_SECURITY_NUMBER + 1,"%03d %02d %04d",n1,n2,n3) >= MAX_SOCIAL_SECURITY_NUMBER+ 1){
+    fprintf(stderr,"social security number too large (%03d) (%02d (%04d)\n",n1,n2,n3);
     exit(1);
   }
 }
