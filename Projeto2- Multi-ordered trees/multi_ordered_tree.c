@@ -29,11 +29,9 @@ typedef struct tree_node_s
   struct tree_node_s *right[3];                         // right pointers (one for each index) --- right means larger
 }
 tree_node_t;
-
 //
 // the node comparison function (do not change this)
 //
-
 int compare_tree_nodes(tree_node_t *node1,tree_node_t *node2,int main_idx)
 {
   int i,c;
@@ -51,21 +49,10 @@ int compare_tree_nodes(tree_node_t *node1,tree_node_t *node2,int main_idx)
   }
   return 0;
 }
-
-
 //
 // tree insertion routine (place your code here)
 //
-
-// FAVOR NAO MEXER
 void tree_insert(tree_node_t **link, tree_node_t *person , int main_index){
-  // if (main_index == 0){
-  //   printf("%s\n",person->name);
-  // } else if (main_index == 1){
-  //   printf("%s\n",person->zip_code);
-  // } else {
-  //   printf("%s\n",person->telephone_number);
-  // }
   if(*link == NULL){ 
       (*link) = person;
   }
@@ -76,14 +63,10 @@ void tree_insert(tree_node_t **link, tree_node_t *person , int main_index){
     tree_insert(&((*link)->right[main_index]), person, main_index);
   }
 }
-
-
 //
 // tree search routine (place your code here)
 //
-
 tree_node_t *find(tree_node_t *link, tree_node_t *person, int main_index){
-  
   if(link == NULL || compare_tree_nodes(link, person, main_index) == 0) {
     return link;
   }
@@ -94,44 +77,34 @@ tree_node_t *find(tree_node_t *link, tree_node_t *person, int main_index){
     return find(link->right[main_index],person, main_index);
   }
 }
-
 //
 // tree depdth
 //
-
 int tree_depth(tree_node_t *link, int main_index) {
-  if (link == NULL){
-    return 0;
-  }
+  if (link == NULL){return 0;}
   int ld = tree_depth(link->left[main_index], main_index);
   int rd = tree_depth(link->right[main_index], main_index);
   if (ld > rd) {return ld + 1;}
   else {return rd + 1;}
 }
-
-
 //
 // list, i,e, traverse the tree (place your code here)
 //
-
 int list(tree_node_t *link, int main_index){
   if(link != NULL){
     list(link->left[main_index], main_index);
     ctr++;
     printf("Person #%d\n",ctr);
-    printf(" name --------------- %s\n",link->name);
-    printf(" zip code ----------- %s\n",link->zip_code);
-    printf(" telephone number --- %s\n",link->telephone_number);
-
+    printf("  name --------------- %s\n",link->name);
+    printf("  zip code ----------- %s\n",link->zip_code);
+    printf("  telephone number --- %s\n",link->telephone_number);
     list(link->right[main_index], main_index);
   }
   return EXIT_SUCCESS;
 }
-
 //
 // main program
 //
-
 int main(int argc,char **argv){
   double dt;
   // process the command line arguments
@@ -179,7 +152,6 @@ int main(int argc,char **argv){
   }
   dt = cpu_time() - dt;
   printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
-
   // search the tree
   for(int main_index = 0;main_index < 3;main_index++){
     dt = cpu_time();
