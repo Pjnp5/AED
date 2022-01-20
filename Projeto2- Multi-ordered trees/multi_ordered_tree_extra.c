@@ -98,15 +98,29 @@ int list(tree_node_t *link, int main_index, char *compare){
 
     list(link->left[main_index], main_index, compare);
     
-    char *search;
+    char *search, *printable;
     if (main_index == 0){
       search = link->name;
+      printable = link->name;
     } else if (main_index == 1){
       search = link->zip_code;
+      printable = link->zip_code;
     } else if (main_index == 2){
       search = link->telephone_number;
+      printable = link->telephone_number;
     } else {
       search = link->social_security_number;
+      printable = link->social_security_number;
+    }
+    if (main_index != 0) {
+      int i = 0, j = 0;
+      while (search[i]) {
+        if (search[i] != ' ')
+          search[j++] = search[i];
+        i++;
+      }
+      search[j] = '\0';
+      printf("%s\n",link->social_security_number);
     }
     if(strcmp(compare,"NULL") == 0 || strstr(search,compare)){
       ctr++;
@@ -116,7 +130,7 @@ int list(tree_node_t *link, int main_index, char *compare){
       printf("  telephone number --------- %s\n",link->telephone_number);
       printf("  social security number --- %s\n",link->social_security_number);
     }
-      list(link->right[main_index], main_index, compare);
+    list(link->right[main_index], main_index, compare);
 
   }
   return EXIT_SUCCESS;

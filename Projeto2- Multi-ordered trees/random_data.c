@@ -1938,7 +1938,7 @@ void random_social_security_number(char social_security_number[MAX_SOCIAL_SECURI
   int n1 = aed_random() % 1000;          //  000..999
   int n2 = aed_random() % 100;           //  00..99
   int n3 = aed_random() % 10000;         //  0000..9999
-  if(snprintf(social_security_number,MAX_SOCIAL_SECURITY_NUMBER + 1,"%03d %02d %04d",n1,n2,n3) >= MAX_SOCIAL_SECURITY_NUMBER+ 1){
+  if(snprintf(social_security_number,MAX_SOCIAL_SECURITY_NUMBER + 1,"%03d %02d %04d",n1,n2,n3) >= MAX_SOCIAL_SECURITY_NUMBER + 1){
     fprintf(stderr,"social security number too large (%03d) (%02d (%04d)\n",n1,n2,n3);
     exit(1);
   }
