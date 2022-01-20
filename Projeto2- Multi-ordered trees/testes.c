@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main(){
-    char *a = "cccc";
-    char *b = "bbbb";
-    printf("%d", strcmp(a,b));
+int main(int argc,char **argv){
+    char *a = "NULL";
+    printf("%d\n", strcmp(a,"NULL"));
     return 1;
 }

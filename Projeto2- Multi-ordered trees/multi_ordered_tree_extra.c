@@ -93,16 +93,31 @@ int tree_depth(tree_node_t *link, int main_index) {
 //
 // list, i,e, traverse the tree (place your code here)
 //
-int list(tree_node_t *link, int main_index){
+int list(tree_node_t *link, int main_index, char *compare){
   if(link != NULL){
-    list(link->left[main_index], main_index);
-    ctr++;
-    printf("Person #%d\n",ctr);
-    printf("  name --------------------- %s\n",link->name);
-    printf("  zip code ----------------- %s\n",link->zip_code);
-    printf("  telephone number --------- %s\n",link->telephone_number);
-    printf("  social security number --- %s\n",link->social_security_number);
-    list(link->right[main_index], main_index);
+
+    list(link->left[main_index], main_index, compare);
+    
+    char *search;
+    if (main_index == 0){
+      search = link->name;
+    } else if (main_index == 1){
+      search = link->zip_code;
+    } else if (main_index == 2){
+      search = link->telephone_number;
+    } else {
+      search = link->social_security_number;
+    }
+    if(strcmp(compare,"NULL") == 0 || strstr(search,compare)){
+      ctr++;
+      printf("Person #%d\n",ctr);
+      printf("  name --------------------- %s\n",link->name);
+      printf("  zip code ----------------- %s\n",link->zip_code);
+      printf("  telephone number --------- %s\n",link->telephone_number);
+      printf("  social security number --- %s\n",link->social_security_number);
+    }
+      list(link->right[main_index], main_index, compare);
+
   }
   return EXIT_SUCCESS;
 }
@@ -187,7 +202,11 @@ int main(int argc,char **argv){
       if(main_index > 3)
         main_index = 3;
       printf("List of persons:\n");
-      (void)list(roots[main_index], main_index); // place your code here to traverse, in order, the tree with number main_index
+      if ((i+1) < argc){
+        (void)list(roots[main_index], main_index, argv[i+1]); // place your code here to traverse, in order, the tree with number main_index
+      } else {
+        (void)list(roots[main_index], main_index, "NULL"); // place your code here to traverse, in order, the tree with number main_index
+      }
     }
     // place your own options here
     // I wanna commit unlive.
