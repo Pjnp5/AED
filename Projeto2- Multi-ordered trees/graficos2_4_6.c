@@ -172,7 +172,7 @@ int main(int argc,char **argv){
   }
   // create the ordered binary trees
   dt = cpu_time();
-  tree_node_t *roots[4]; // four indices, four roots
+  tree_node_t *roots[4]; // fou indices, four roots
   for(int main_index = 0;main_index < 4;main_index++){
     roots[main_index] = NULL;
   }

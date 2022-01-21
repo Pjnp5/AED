@@ -19,5 +19,8 @@ multi_ordered_tree:		multi_ordered_tree.c $(AUX_C_FILES) $(AUX_H_FILES)
 multi_ordered_tree_extra:		multi_ordered_tree_extra.c $(AUX_C_FILES) $(AUX_H_FILES)
 	cc -Wall -O2 multi_ordered_tree_extra.c $(AUX_C_FILES) -o multi_ordered_tree_extra
 
+graficos1_3_5:		graficos1_3_5.c $(AUX_C_FILES) $(AUX_H_FILES)
+	cc -Wall -O2 graficos1_3_5.c $(AUX_C_FILES) -o graficos1_3_5
+
 solution_multi_ordered_tree:	solution_multi_ordered_tree.c $(AUX_C_FILES) $(AUX_H_FILES)
 	cc -Wall -O2 solution_multi_ordered_tree.c $(AUX_C_FILES) -o solution_multi_ordered_tree
