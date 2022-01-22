@@ -16,11 +16,14 @@ clean:
 multi_ordered_tree:		multi_ordered_tree.c $(AUX_C_FILES) $(AUX_H_FILES)
 	cc -Wall -O2 multi_ordered_tree.c $(AUX_C_FILES) -o multi_ordered_tree
 
-multi_ordered_tree_extra:		multi_ordered_tree_extra.c $(AUX_C_FILES) $(AUX_H_FILES)
-	cc -Wall -O2 multi_ordered_tree_extra.c $(AUX_C_FILES) -o multi_ordered_tree_extra
+multi_ordered_tree_prints:		multi_ordered_tree_prints.c $(AUX_C_FILES) $(AUX_H_FILES)
+	cc -Wall -O2 multi_ordered_tree_prints.c $(AUX_C_FILES) -o multi_ordered_tree_prints
 
 graficos1_3_5:		graficos1_3_5.c $(AUX_C_FILES) $(AUX_H_FILES)
 	cc -Wall -O2 graficos1_3_5.c $(AUX_C_FILES) -o graficos1_3_5
+
+graficos2_4_6:		graficos2_4_6.c $(AUX_C_FILES) $(AUX_H_FILES)
+	cc -Wall -O2 graficos2_4_6.c $(AUX_C_FILES) -o graficos2_4_6
 
 solution_multi_ordered_tree:	solution_multi_ordered_tree.c $(AUX_C_FILES) $(AUX_H_FILES)
 	cc -Wall -O2 solution_multi_ordered_tree.c $(AUX_C_FILES) -o solution_multi_ordered_tree

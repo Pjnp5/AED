@@ -136,7 +136,6 @@ int list(tree_node_t *link, int main_index, char *compare){
 // main program
 //
 int main(int argc,char **argv){
-  double dt;
   // process the command line arguments
   if(argc < 3){
     fprintf(stderr,"Usage: %s student_number number_of_persons [options ...]\n",argv[0]);
@@ -156,11 +155,24 @@ int main(int argc,char **argv){
   //   return 1;
   // }
   FILE *graphs_0, *graphs_1, *graphs_2, *graphs_3;
+  FILE *creation_0, *creation_1, *creation_2, *creation_3;
+  FILE *search_0, *search_1, *search_2, *search_3;
   graphs_0 = fopen("depth00.txt", "a");
   graphs_1 = fopen("depth01.txt", "a");
   graphs_2 = fopen("depth02.txt", "a");
   graphs_3 = fopen("depth03.txt", "a");
-  for (int n_persons = 3; n_persons <= 10000000; n_persons++) {   // mudar o array para logspace(1e1, 1e7, 19) em matlab
+  creation_0 = fopen("creation00.txt", "a");
+  creation_1 = fopen("creation01.txt", "a");
+  creation_2 = fopen("creation02.txt", "a");
+  creation_3 = fopen("creation03.txt", "a");
+  search_0 = fopen("search00.txt", "a");
+  search_1 = fopen("search01.txt", "a");
+  search_2 = fopen("search02.txt", "a");
+  search_3 = fopen("search03.txt", "a");
+  int numeros[19]={10, 33, 66, 100, 333, 666, 1000, 3333, 6666, 10000, 33333, 66666, 100000, 333333, 666666, 1000000, 3333333, 6666666, 10000000};
+  for (int x = 0; x < 19; x++){  
+    double dt;
+    int n_persons = numeros[x];
     // generate all data
     tree_node_t *persons = (tree_node_t *)calloc((size_t)n_persons,sizeof(tree_node_t)); // arvore para por as pessoas
     if(persons == NULL){
@@ -182,13 +194,28 @@ int main(int argc,char **argv){
     for(int main_index = 0;main_index < 4;main_index++){
       roots[main_index] = NULL;
     }
-    for(int i = 0;i < n_persons;i++){
-      for(int main_index = 0;main_index < 4;main_index++){
+    for(int main_index = 0;main_index < 4;main_index++){
+      double regist = cpu_time();
+      for(int i = 0;i < n_persons;i++){
         tree_insert(&(roots[main_index]),&(persons[i]), main_index); // place your code here to insert &(persons[i]) in the tree with number main_index
+      }
+      regist = cpu_time() - regist;
+      if (main_index == 0) {
+        fprintf(creation_0, "%17.15f\n", regist);
+      }
+      else if (main_index == 1) {
+        fprintf(creation_1, "%17.15f\n", regist);
+      }
+      else if (main_index == 2) {
+        fprintf(creation_2, "%17.15f\n", regist);
+      }
+      else {
+        fprintf(creation_3, "%17.15f\n", regist);
       }
     }
     dt = cpu_time() - dt;
     printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
+
     // search the tree
     for(int main_index = 0;main_index < 4;main_index++){
       dt = cpu_time();
@@ -202,6 +229,18 @@ int main(int argc,char **argv){
       }
       dt = cpu_time() - dt;
       printf("Tree search time (%d persons, index %d): %.3es\n",n_persons,main_index,dt);
+      if (main_index == 0) {
+        fprintf(search_0, "%17.15f\n", dt);
+      }
+      else if (main_index == 1) {
+        fprintf(search_1, "%17.15f\n", dt);
+      }
+      else if (main_index == 2) {
+        fprintf(search_2, "%17.15f\n", dt);
+      }
+      else {
+        fprintf(search_3, "%17.15f\n", dt);
+      }
     }
     // compute the largest tree depdth
     for(int main_index = 0;main_index < 4;main_index++){
@@ -210,20 +249,16 @@ int main(int argc,char **argv){
       dt = cpu_time() - dt;
       printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
       if (main_index == 0) {
-        fprintf(graphs_0, "%d", depth);
-        fprintf(graphs_0, "\n");
+        fprintf(graphs_0, "%d\n", depth);
       }
       else if (main_index == 1) {
-        fprintf(graphs_1, "%d", depth);
-        fprintf(graphs_1, "\n");
+        fprintf(graphs_1, "%d\n", depth);
       }
       else if (main_index == 2) {
-        fprintf(graphs_2, "%d", depth);
-        fprintf(graphs_2, "\n");
+        fprintf(graphs_2, "%d\n", depth);
       }
       else {
-        fprintf(graphs_3, "%d", depth);
-        fprintf(graphs_3, "\n");
+        fprintf(graphs_3, "%d\n", depth);
       }
     }
     // process the command line optional arguments
@@ -251,5 +286,13 @@ int main(int argc,char **argv){
   fclose(graphs_1);
   fclose(graphs_2);
   fclose(graphs_3);
+  fclose(creation_0);
+  fclose(creation_1);
+  fclose(creation_2);
+  fclose(creation_3);
+  fclose(search_0);
+  fclose(search_1);
+  fclose(search_2);
+  fclose(search_3);
   return 0;
 }

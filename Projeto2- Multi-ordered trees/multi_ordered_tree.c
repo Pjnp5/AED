@@ -22,11 +22,12 @@ int ctr = 0;
 
 typedef struct tree_node_s
 {
-  char name[ MAX_NAME_SIZE + 1];                         // index 0 data item
-  char zip_code[MAX_ZIP_CODE_SIZE + 1];                 // index 1 data item
-  char telephone_number[MAX_TELEPHONE_NUMBER_SIZE + 1]; // index 2 data item
-  struct tree_node_s *left[3];                          // left pointers (one for each index) ---- left means smaller
-  struct tree_node_s *right[3];                         // right pointers (one for each index) --- right means larger
+  char name[ MAX_NAME_SIZE + 1];                               // index 0 data item
+  char zip_code[MAX_ZIP_CODE_SIZE + 1];                        // index 1 data item
+  char telephone_number[MAX_TELEPHONE_NUMBER_SIZE + 1];        // index 2 data item
+  char social_security_number[MAX_SOCIAL_SECURITY_NUMBER + 1]; // index 3 data item
+  struct tree_node_s *left[4];                                 // left pointers (one for each index) ---- left means smaller
+  struct tree_node_s *right[4];                                // right pointers (one for each index) --- right means larger
 }
 tree_node_t;
 //
@@ -41,11 +42,13 @@ int compare_tree_nodes(tree_node_t *node1,tree_node_t *node2,int main_idx)
       c = strcmp(node1->name,node2->name);
     else if(main_idx == 1)
       c = strcmp(node1->zip_code,node2->zip_code);
-    else
+    else if(main_idx == 2)
       c = strcmp(node1->telephone_number,node2->telephone_number);
+    else
+      c = strcmp(node1->social_security_number,node2->social_security_number);
     if(c != 0)
       return c; // different on this index, so return
-    main_idx = (main_idx == 2) ? 0 : main_idx + 1; // advance to the next index
+    main_idx = (main_idx == 3) ? 0 : main_idx + 1; // advance to the next index
   }
   return 0;
 }
@@ -90,15 +93,42 @@ int tree_depth(tree_node_t *link, int main_index) {
 //
 // list, i,e, traverse the tree (place your code here)
 //
-int list(tree_node_t *link, int main_index){
+int list(tree_node_t *link, int main_index, char *compare){
   if(link != NULL){
-    list(link->left[main_index], main_index);
-    ctr++;
-    printf("Person #%d\n",ctr);
-    printf("  name --------------- %s\n",link->name);
-    printf("  zip code ----------- %s\n",link->zip_code);
-    printf("  telephone number --- %s\n",link->telephone_number);
-    list(link->right[main_index], main_index);
+
+    list(link->left[main_index], main_index, compare);
+    
+    char *search;
+    if (main_index == 0){
+      search = link->name;    
+    } else if (main_index == 1){
+      search = link->zip_code;
+    } else if (main_index == 2){
+      search = link->telephone_number;
+    } else {
+      search = link->social_security_number;
+    }
+    char sus[strlen(search)];
+    strcpy(sus,search);
+    if (main_index != 0) {
+      int i = 0, j = 0;
+      while (sus[i]) {
+        if (sus[i] != ' ')
+          sus[j++] = sus[i];
+        i++;
+      }
+      sus[j] = '\0';
+    }
+    if(strcmp(compare,"NULL") == 0 || strstr(sus,compare)){
+      ctr++;
+      printf("Person #%d\n",ctr);
+      printf("  name --------------------- %s\n",link->name);
+      printf("  zip code ----------------- %s\n",link->zip_code);
+      printf("  telephone number --------- %s\n",link->telephone_number);
+      printf("  social security number --- %s\n",link->social_security_number);
+    }
+    list(link->right[main_index], main_index, compare);
+
   }
   return EXIT_SUCCESS;
 }
@@ -136,24 +166,25 @@ int main(int argc,char **argv){
     random_name(&(persons[i].name[0]));
     random_zip_code(&(persons[i].zip_code[0]));
     random_telephone_number(&(persons[i].telephone_number[0]));
-    for(int j = 0;j < 3;j++)
+    random_social_security_number(&(persons[i].social_security_number[0]));
+    for(int j = 0;j < 4;j++)
       persons[i].left[j] = persons[i].right[j] = NULL; // make sure the pointers are initially NULL
   }
   // create the ordered binary trees
   dt = cpu_time();
-  tree_node_t *roots[3]; // three indices, three roots
-  for(int main_index = 0;main_index < 3;main_index++){
+  tree_node_t *roots[4]; // four indices, four roots
+  for(int main_index = 0;main_index < 4;main_index++){
     roots[main_index] = NULL;
   }
   for(int i = 0;i < n_persons;i++){
-    for(int main_index = 0;main_index < 3;main_index++){
+    for(int main_index = 0;main_index < 4;main_index++){
       tree_insert(&(roots[main_index]),&(persons[i]), main_index); // place your code here to insert &(persons[i]) in the tree with number main_index
     }
   }
   dt = cpu_time() - dt;
   printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
   // search the tree
-  for(int main_index = 0;main_index < 3;main_index++){
+  for(int main_index = 0;main_index < 4;main_index++){
     dt = cpu_time();
     for(int i = 0;i < n_persons;i++){
       tree_node_t n = persons[i]; // make a copy of the node data
@@ -167,7 +198,7 @@ int main(int argc,char **argv){
     printf("Tree search time (%d persons, index %d): %.3es\n",n_persons,main_index,dt);
   }
   // compute the largest tree depdth
-  for(int main_index = 0;main_index < 3;main_index++){
+  for(int main_index = 0;main_index < 4;main_index++){
     dt = cpu_time();
     int depth = tree_depth(roots[main_index], main_index); // place your code here to compute the depth of the tree with number main_index
     dt = cpu_time() - dt;
@@ -178,11 +209,15 @@ int main(int argc,char **argv){
     if(strncmp(argv[i],"-list",5) == 0){ // list all (optional)
       int main_index = atoi(&(argv[i][5]));
       if(main_index < 0)
-        main_index = 0; //Não faz sentido
-      if(main_index > 2)
-        main_index = 2; //Enfim
+        main_index = 0;
+      if(main_index > 3)
+        main_index = 3;
       printf("List of persons:\n");
-      (void)list(roots[main_index], main_index); // place your code here to traverse, in order, the tree with number main_index
+      if ((i+1) < argc){
+        (void)list(roots[main_index], main_index, argv[i+1]); // place your code here to traverse, in order, the tree with number main_index
+      } else {
+        (void)list(roots[main_index], main_index, "NULL"); // place your code here to traverse, in order, the tree with number main_index
+      }
     }
     // place your own options here
     // I wanna commit unlive.
