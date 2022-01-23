@@ -4,6 +4,9 @@
 // Solution of the second practical assignement (multi-ordered tree)
 //
 // Place your student numbers and names here
+//    Ana Raquel Paradinha  102491
+//    Paulo Pinto           103234
+//    Tiago Carvalho        104142
 //
 
 #include <stdio.h>
@@ -95,7 +98,6 @@ int tree_depth(tree_node_t *link, int main_index) {
 //
 int list(tree_node_t *link, int main_index, char *compare){
   if(link != NULL){
-
     list(link->left[main_index], main_index, compare);
     
     char *search;
@@ -128,7 +130,6 @@ int list(tree_node_t *link, int main_index, char *compare){
       printf("  social security number --- %s\n",link->social_security_number);
     }
     list(link->right[main_index], main_index, compare);
-
   }
   return EXIT_SUCCESS;
 }
@@ -220,7 +221,6 @@ int main(int argc,char **argv){
       }
     }
     // place your own options here
-    // I wanna commit unlive.
   }
   // clean up --- don't forget to test your program with valgrind, we don't want any memory leaks
   
