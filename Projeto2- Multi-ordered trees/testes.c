@@ -3,7 +3,7 @@
 #include <string.h>
 
 int main(int argc,char **argv){
-    char *a = "NULL";
-    printf("%d\n", strcmp(a,"NULL"));
+    char *a = "Alberto de sousa";
+    printf("%d\n", strcmp(a,"Maria"));
     return 1;
 }

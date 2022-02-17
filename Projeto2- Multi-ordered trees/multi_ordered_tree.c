@@ -98,41 +98,58 @@ int tree_depth(tree_node_t *link, int main_index) {
 //
 int list(tree_node_t *link, int main_index, char *compare){
   if(link != NULL){
-    list(link->left[main_index], main_index, compare);
+    int c = 0; char *search; char *CompareSave;
+
     
-    char *search;
+    
     if (main_index == 0){
-      search = link->name;    
+      search = link->name;
+      c = strcmp(link->name,compare);
     } else if (main_index == 1){
       search = link->zip_code;
+      c = strcmp(link->zip_code,compare);
     } else if (main_index == 2){
       search = link->telephone_number;
+      c = strcmp(link->telephone_number,compare);
     } else {
       search = link->social_security_number;
+      c = strcmp(link->social_security_number,compare);
     }
-    char sus[strlen(search)];
-    strcpy(sus,search);
-    if (main_index != 0) {
-      int i = 0, j = 0;
-      while (sus[i]) {
-        if (sus[i] != ' ')
-          sus[j++] = sus[i];
-        i++;
-      }
-      sus[j] = '\0';
+
+    if(compare ==  "NULL"){
+      CompareSave =  "NULL";
+      strcpy(compare, search);
+    } else {
+      strcpy(CompareSave, compare);
     }
-    if(strcmp(compare,"NULL") == 0 || strstr(sus,compare)){
-      ctr++;
-      printf("Person #%d\n",ctr);
-      printf("  name --------------------- %s\n",link->name);
-      printf("  zip code ----------------- %s\n",link->zip_code);
-      printf("  telephone number --------- %s\n",link->telephone_number);
-      printf("  social security number --- %s\n",link->social_security_number);
+
+    char sus[strlen(compare)];
+    for (int i = 0; i < strlen(compare); i++){
+      sus[i] = compare[i];
     }
-    list(link->right[main_index], main_index, compare);
+
+    if (c > 0){
+      list(link->left[main_index], main_index, CompareSave);
+      listing(link, sus, compare);
+    } else {
+      listing(link, sus, compare);
+      list(link->right[main_index], main_index, CompareSave);
+    }
   }
   return EXIT_SUCCESS;
 }
+int listing(tree_node_t *link, char *sus, char *compare){
+  if(strcmp(compare,"NULL") == 0 || strcmp(sus,compare) == 0){
+    ctr++;
+    printf("Person #%d\n",ctr);
+    printf("  name --------------------- %s\n",link->name);
+    printf("  zip code ----------------- %s\n",link->zip_code);
+    printf("  telephone number --------- %s\n",link->telephone_number);
+    printf("  social security number --- %s\n",link->social_security_number);
+  }
+}
+
+  
 //
 // main program
 //
