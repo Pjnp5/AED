@@ -3,7 +3,9 @@
 #include <string.h>
 
 int main(int argc,char **argv){
-    char *a = "Alberto de sousa";
-    printf("%d\n", strcmp(a,"Maria"));
+    char *a = "Alberto de Sousa";
+    char *b= (char*)malloc(sizeof(char) * (2+1));
+    strncpy(b,(a+0),2);
+    printf("%d\n", strcmp(b,"M"));
     return 1;
 }

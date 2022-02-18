@@ -98,10 +98,7 @@ int tree_depth(tree_node_t *link, int main_index) {
 //
 int list(tree_node_t *link, int main_index, char *compare){
   if(link != NULL){
-    int c = 0; char *search; char *CompareSave;
-
-    
-    
+    int c = 0; char *search;
     if (main_index == 0){
       search = link->name;
       c = strcmp(link->name,compare);
@@ -115,31 +112,31 @@ int list(tree_node_t *link, int main_index, char *compare){
       search = link->social_security_number;
       c = strcmp(link->social_security_number,compare);
     }
-
-    if(compare ==  "NULL"){
-      CompareSave =  "NULL";
-      strcpy(compare, search);
+    if(strcmp(compare,"NULL")==0){
+      list(link->left[main_index], main_index, compare);
+      listprint(link, search, compare);
+      list(link->right[main_index], main_index, compare);
     } else {
-      strcpy(CompareSave, compare);
-    }
-
-    char sus[strlen(compare)];
-    for (int i = 0; i < strlen(compare); i++){
-      sus[i] = compare[i];
-    }
-
-    if (c > 0){
-      list(link->left[main_index], main_index, CompareSave);
-      listing(link, sus, compare);
-    } else {
-      listing(link, sus, compare);
-      list(link->right[main_index], main_index, CompareSave);
+      char *subSearch; int len = strlen(compare);
+      if(strlen(search) < strlen(compare)) {
+        len = strlen(search);
+      }
+      subSearch = (char*)malloc(sizeof(char) * (len+1));
+      strncpy(subSearch, search, len);
+      if (c > 0){
+        list(link->left[main_index], main_index, compare);
+        listprint(link, subSearch, compare);
+      } else {
+        listprint(link, subSearch, compare);
+        list(link->right[main_index], main_index, compare);
+      }
     }
   }
   return EXIT_SUCCESS;
 }
-int listing(tree_node_t *link, char *sus, char *compare){
-  if(strcmp(compare,"NULL") == 0 || strcmp(sus,compare) == 0){
+
+int listprint(tree_node_t *link, char *search, char *compare){
+  if(strcmp(compare,"NULL") == 0 || strcmp(search,compare) == 0){
     ctr++;
     printf("Person #%d\n",ctr);
     printf("  name --------------------- %s\n",link->name);
